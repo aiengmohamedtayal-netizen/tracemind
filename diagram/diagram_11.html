@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false }
+        });
+    </script>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 30px;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            direction: rtl;
+            font-family: sans-serif;
+        }
+        .mermaid {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">11. الخطة التنفيذية لـ 4 أسابيع (Four-Week Roadmap)</div>
+    <div class="mermaid">
+gantt
+    title خطة التنفيذ لستة مطورين (TraceMind 4-Week Schedule)
+    dateFormat  YYYY-MM-DD
+    section Week 1 (البنية والعقود)
+    إعداد المستودع ونماذج البيانات المشتركة (M6) :w1_1, 2026-11-01, 3d
+    تجهيز السيناريوهات الاصطناعية و CSV/JSON (M1) :w1_2, 2026-11-01, 5d
+    هيكل قواعد الارتباط و MultiDiGraph (M2) :w1_3, 2026-11-03, 4d
+    هيكل دورة حياة الفرضيات والخط الزمني (M4) :w1_4, 2026-11-03, 4d
+    صياغة نموذج الحالة ودالة المنفعة للوكيل (M3) :w1_5, 2026-11-03, 4d
+    هيكل واجهة Streamlit مع بيانات تجريبية (M5) :w1_6, 2026-11-04, 3d
+    
+    section Week 2 (المنطق الأساسي)
+    تطوير Ingestion الكامل والتنظيف ومستودعات SQLite (M1) :w2_1, 2026-11-08, 5d
+    تطوير قواعد محرك الارتباط وحساب الأوزان (M2) :w2_2, 2026-11-08, 5d
+    تطوير محرك الفرضيات ومعادلة الثقة (M4) :w2_3, 2026-11-08, 5d
+    تطوير استدلال الوكيل وتوليد الإجراءات U(a) (M3) :w2_4, 2026-11-08, 5d
+    تطوير صفحات الخط الزمني واستكشاف الأدلة (M5) :w2_5, 2026-11-08, 5d
+    بناء مخطط SQLite وتنسيق ActionExecutionResponse (M6) :w2_6, 2026-11-08, 5d
+
+    section Week 3 (التكامل وحلقة الوكيل)
+    ربط الاستيراد مع الارتباط وتغذية الأدلة (M1+M2) :w3_1, 2026-11-15, 4d
+    تشغيل حلقة الوكيل الكاملة واستقبال التغذية (M3+M4+M6) :w3_2, 2026-11-15, 5d
+    ربط واجهة Streamlit بالخدمات الحقيقية (M5) :w3_3, 2026-11-17, 4d
+    تفعيل التخزين الدائم في SQLite لكافة الحركات (M1+M6) :w3_4, 2026-11-15, 5d
+
+    section Week 4 (الاختبارات الشاملة والعرض)
+    تنفيذ اختبارات E2E على السيناريوهات المرجعية (M6) :w4_1, 2026-11-22, 4d
+    تحسين الشرح والتعليل وإحكام شروط التوقف (M3) :w4_2, 2026-11-22, 3d
+    تحسين مظهر الرسوم البيانية وتوليد التقارير (M5) :w4_3, 2026-11-23, 3d
+    التوثيق النهائي، تقرير المشروع، وتحضير العرض التوضيحي (الجميع) :w4_4, 2026-11-25, 4d
+    </div>
+</body>
+</html>

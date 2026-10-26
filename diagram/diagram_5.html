@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false }
+        });
+    </script>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 30px;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            direction: rtl;
+            font-family: sans-serif;
+        }
+        .mermaid {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">5. دورة حياة الفرضية (Hypothesis State Lifecycle)</div>
+    <div class="mermaid">
+stateDiagram-v2
+    [*] --> OPEN: تكوين الفرضية بناءً على مؤشرات مبدئية
+    OPEN --> SUPPORTED: ورود أدلة مؤيدة إضافية (Confidence > 0.60)
+    OPEN --> WEAKENED: ورود أدلة معارضة أو نقص شديد (Confidence < 0.40)
+    SUPPORTED --> ESCALATED: اكتمال الأدلة وارتفاع الثقة (Confidence >= 0.75)
+    SUPPORTED --> CONFIRMED: تأكيد قطعي بوجود أدلة حاسمة غير قابلة للشك (Confidence >= 0.85)
+    WEAKENED --> REJECTED: إثبات عدم صحة الفرضية بوجود أدلة نافية قاطعة (Confidence <= 0.20)
+    CONFIRMED --> [*]
+    REJECTED --> [*]
+    ESCALATED --> [*]: تحويل القرار للتدخل البشري
+    </div>
+</body>
+</html>

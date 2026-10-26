@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false }
+        });
+    </script>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 30px;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            direction: rtl;
+            font-family: sans-serif;
+        }
+        .mermaid {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">8. شبكة ارتباط الأدلة في NetworkX (MultiDiGraph Example)</div>
+    <div class="mermaid">
+graph LR
+    E1["Event 1: Failed Login<br/>User: Alice | WS-001<br/>02:15:00"]
+    E2["Event 2: Failed Login<br/>User: Alice | WS-001<br/>02:15:05"]
+    E3["Event 3: Success Login<br/>User: Alice | WS-001<br/>02:15:40"]
+    E4["Event 4: Outbound Connection<br/>From: WS-001 To: SRV-002<br/>02:16:10"]
+
+    E1 -->|SAME_ACCOUNT<br/>Weight: 0.95| E2
+    E1 -.->|TEMPORALLY_RELATED<br/>Weight: 0.98| E2
+    E2 -->|SAME_ACCOUNT<br/>Weight: 0.95| E3
+    E3 -->|SAME_DEVICE<br/>Weight: 0.90| E4
+    </div>
+</body>
+</html>

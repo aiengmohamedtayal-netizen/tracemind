@@ -1,0 +1,136 @@
+{
+  "scenario_id": "SCN-001",
+  "name": "Brute Force + Lateral Movement",
+  "description": "سيناريو هجوم Brute Force متبوع بدخول ناجح وحركة جانبية — يحاول المهاجم تخمين كلمة مرور حساب مستخدم عادي ثم ينجح في الدخول ويتحرك أفقياً نحو خادم حساس.",
+  "ground_truth": {
+    "attack_type": "brute_force_lateral_movement",
+    "compromised_account": "user_alice",
+    "attacker_ip": "192.168.50.100",
+    "affected_devices": ["DEVICE-WS-001", "DEVICE-SRV-002"],
+    "expected_hypothesis_outcome": "ESCALATED",
+    "expected_agent_actions_sequence": [
+      "REQUEST_ADDITIONAL_LOGS",
+      "INVESTIGATE_ENTITY",
+      "ESCALATE_FOR_HUMAN_REVIEW"
+    ]
+  },
+  "events": [
+    {
+      "id": "EVT-001",
+      "timestamp": "2024-01-15T02:15:00Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "MEDIUM",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول للمستخدم user_alice من عنوان IP خارجي — المحاولة الأولى"
+    },
+    {
+      "id": "EVT-002",
+      "timestamp": "2024-01-15T02:15:05Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "MEDIUM",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الثانية بفارق 5 ثوانٍ"
+    },
+    {
+      "id": "EVT-003",
+      "timestamp": "2024-01-15T02:15:10Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "MEDIUM",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الثالثة"
+    },
+    {
+      "id": "EVT-004",
+      "timestamp": "2024-01-15T02:15:15Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "HIGH",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الرابعة، ترتفع الخطورة"
+    },
+    {
+      "id": "EVT-005",
+      "timestamp": "2024-01-15T02:15:20Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "HIGH",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الخامسة"
+    },
+    {
+      "id": "EVT-006",
+      "timestamp": "2024-01-15T02:15:25Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "HIGH",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة السادسة، نمط واضح للـ Brute Force"
+    },
+    {
+      "id": "EVT-007",
+      "timestamp": "2024-01-15T02:15:30Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "HIGH",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة السابعة والأخيرة قبل النجاح"
+    },
+    {
+      "id": "EVT-008",
+      "timestamp": "2024-01-15T02:15:35Z",
+      "event_type": "LOGIN_SUCCESS",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.100",
+      "destination_ip": "192.168.10.55",
+      "severity": "CRITICAL",
+      "indicator": "SUCCESSFUL_LOGIN_AFTER_BRUTE_FORCE",
+      "source_file": "auth_logs.csv",
+      "description": "تسجيل دخول ناجح بعد 7 محاولات فاشلة — يُشير بقوة إلى نجاح هجوم Brute Force"
+    },
+    {
+      "id": "EVT-009",
+      "timestamp": "2024-01-15T02:16:10Z",
+      "event_type": "NETWORK_CONNECTION",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.10.55",
+      "destination_ip": "192.168.10.20",
+      "severity": "HIGH",
+      "indicator": "LATERAL_MOVEMENT_SMB",
+      "source_file": "network_events.json",
+      "description": "اتصال شبكي غير اعتيادي من محطة العمل إلى خادم DEVICE-SRV-002 عبر بروتوكول SMB (المنفذ 445) — علامة على حركة جانبية محتملة"
+    }
+  ]
+}

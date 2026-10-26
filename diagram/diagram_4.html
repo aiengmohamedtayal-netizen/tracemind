@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false }
+        });
+    </script>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 30px;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            direction: rtl;
+            font-family: sans-serif;
+        }
+        .mermaid {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">4. مخطط الكيانات والمخطط المفاهيمي (Domain Model Class Diagram)</div>
+    <div class="mermaid">
+classDiagram
+    class SecurityEvent {
+        +str id
+        +datetime timestamp
+        +EventType event_type
+        +Severity severity
+        +str source_file
+        +ValidationStatus validation_status
+        +Optional[str] account_id
+        +Optional[str] device_id
+        +Optional[str] source_ip
+        +Optional[str] destination_ip
+        +Optional[str] indicator
+        +dict raw_data
+        +datetime normalized_at
+    }
+
+    class Evidence {
+        +str id
+        +EvidenceType evidence_type
+        +str source_event_id
+        +float reliability
+        +str observed_value
+        +datetime timestamp
+        +str provenance
+    }
+
+    class EvidenceRelation {
+        +str id
+        +str source_evidence_id
+        +str target_evidence_id
+        +RelationType relation_type
+        +float weight
+        +float confidence
+        +Optional[float] temporal_delta_seconds
+        +str provenance
+        +datetime created_at
+    }
+
+    class Hypothesis {
+        +str id
+        +str description
+        +HypothesisStatus status
+        +float confidence
+        +List[str] missing_evidence_types
+        +datetime created_at
+        +datetime updated_at
+    }
+
+    class CandidateAction {
+        +str id
+        +Optional[str] decision_id
+        +ActionType action_type
+        +Optional[str] target_entity
+        +str description
+        +float estimated_benefit
+        +float estimated_cost
+        +float estimated_risk
+        +float utility
+        +bool is_selected
+        +dict parameters
+    }
+
+    class AgentDecision {
+        +str id
+        +CandidateAction selected_action
+        +List[CandidateAction] candidate_actions
+        +float utility_score
+        +str explanation
+        +int investigation_step
+        +datetime timestamp
+    }
+
+    class RawLogPayload {
+        +str source_name
+        +str format
+        +str content
+        +dict metadata
+    }
+
+    class ActionExecutionResponse {
+        +ActionResult action_result
+        +List[RawLogPayload] raw_payloads
+    }
+
+    SecurityEvent "1" <-- "1..*" Evidence : generates
+    Evidence "1" <-- "0..*" EvidenceRelation : source_node
+    Evidence "1" <-- "0..*" EvidenceRelation : target_node
+    Hypothesis "1" -- "0..*" Evidence : associations
+    AgentDecision "1" *-- "1" CandidateAction : selected (is_selected=True)
+    AgentDecision "1" *-- "0..*" CandidateAction : alternatives (is_selected=False)
+    AgentDecision "1" <-- "1" ActionExecutionResponse : produces response
+    ActionExecutionResponse *-- "1" ActionResult
+    ActionExecutionResponse *-- "0..*" RawLogPayload
+    </div>
+</body>
+</html>

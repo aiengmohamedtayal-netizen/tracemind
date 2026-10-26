@@ -1,0 +1,115 @@
+{
+  "scenario_id": "SCN-003",
+  "name": "Suspicious Login + Missing Evidence",
+  "description": "سيناريو نشاط مشبوه مع غياب الأدلة الكاملة — محاولات دخول متعددة فاشلة ثم نجاح، تليها اتصالات بجهاز مجهول لا سجلات له في قاعدة البيانات.",
+  "ground_truth": {
+    "attack_type": "suspected_unauthorized_access",
+    "compromised_account": "user_alice",
+    "attacker_ip": "192.168.50.200",
+    "affected_devices": ["DEVICE-WS-001", "DEVICE-UNKNOWN-X"],
+    "expected_hypothesis_outcome": "PENDING_EVIDENCE",
+    "expected_agent_actions_sequence": [
+      "REQUEST_ADDITIONAL_LOGS"
+    ]
+  },
+  "events": [
+    {
+      "id": "EVT-001",
+      "timestamp": "2024-01-16T23:40:00Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.200",
+      "destination_ip": "192.168.10.55",
+      "severity": "MEDIUM",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول في وقت متأخر من الليل — المحاولة الأولى"
+    },
+    {
+      "id": "EVT-002",
+      "timestamp": "2024-01-16T23:41:12Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.200",
+      "destination_ip": "192.168.10.55",
+      "severity": "MEDIUM",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الثانية"
+    },
+    {
+      "id": "EVT-003",
+      "timestamp": "2024-01-16T23:42:30Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.200",
+      "destination_ip": "192.168.10.55",
+      "severity": "HIGH",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الثالثة"
+    },
+    {
+      "id": "EVT-004",
+      "timestamp": "2024-01-16T23:43:45Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.200",
+      "destination_ip": "192.168.10.55",
+      "severity": "HIGH",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الرابعة"
+    },
+    {
+      "id": "EVT-005",
+      "timestamp": "2024-01-16T23:44:58Z",
+      "event_type": "LOGIN_FAILED",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.200",
+      "destination_ip": "192.168.10.55",
+      "severity": "HIGH",
+      "indicator": "MULTIPLE_FAILED_LOGINS",
+      "source_file": "auth_logs.csv",
+      "description": "فشل تسجيل الدخول — المحاولة الخامسة"
+    },
+    {
+      "id": "EVT-006",
+      "timestamp": "2024-01-16T23:46:02Z",
+      "event_type": "LOGIN_SUCCESS",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.50.200",
+      "destination_ip": "192.168.10.55",
+      "severity": "CRITICAL",
+      "indicator": "SUCCESSFUL_LOGIN_AFTER_FAILED_ATTEMPTS",
+      "source_file": "auth_logs.csv",
+      "description": "تسجيل دخول ناجح بعد 5 محاولات فاشلة خلال ساعات الليل — مريب جداً"
+    },
+    {
+      "id": "EVT-007",
+      "timestamp": "2024-01-16T23:47:30Z",
+      "event_type": "NETWORK_CONNECTION",
+      "account_id": "user_alice",
+      "device_id": "DEVICE-WS-001",
+      "source_ip": "192.168.10.55",
+      "destination_ip": "192.168.99.15",
+      "severity": "HIGH",
+      "indicator": "CONNECTION_TO_UNKNOWN_DEVICE",
+      "source_file": "network_events.json",
+      "description": "اتصال من محطة عمل user_alice إلى عنوان IP لجهاز غير مُسجَّل في قاعدة بيانات الأصول (DEVICE-UNKNOWN-X) — لا توجد سجلات لهذا الجهاز مما يعيق التحقيق ويستدعي طلب بيانات إضافية"
+    }
+  ],
+  "missing_evidence": {
+    "device_id": "DEVICE-UNKNOWN-X",
+    "device_ip": "192.168.99.15",
+    "reason": "الجهاز غير مُسجَّل في قاعدة بيانات الأصول ولا توجد سجلات نشاط له",
+    "required_logs": ["device_inventory", "network_flow_logs", "endpoint_logs"],
+    "blocking_investigation": true
+  }
+}

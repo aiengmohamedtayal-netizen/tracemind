@@ -1,0 +1,95 @@
+{
+  "scenario_id": "SCN-002",
+  "name": "Normal User Activity",
+  "description": "سيناريو نشاط اعتيادي تماماً — لا توجد أي مؤشرات تهديد، جميع عمليات الدخول من عناوين IP معروفة وخلال ساعات العمل الرسمية.",
+  "ground_truth": {
+    "attack_type": null,
+    "compromised_account": null,
+    "attacker_ip": null,
+    "affected_devices": [],
+    "expected_hypothesis_outcome": "CONCLUDED",
+    "expected_agent_actions_sequence": [
+      "CONCLUDE_INVESTIGATION"
+    ]
+  },
+  "events": [
+    {
+      "id": "EVT-001",
+      "timestamp": "2024-01-15T08:02:14Z",
+      "event_type": "LOGIN_SUCCESS",
+      "account_id": "user_bob",
+      "device_id": "DEVICE-WS-003",
+      "source_ip": "192.168.10.30",
+      "destination_ip": "192.168.10.1",
+      "severity": "LOW",
+      "indicator": null,
+      "source_file": "auth_logs.csv",
+      "description": "تسجيل دخول ناجح وعادي للمستخدم user_bob من محطة عمله المعتادة في بداية يوم العمل"
+    },
+    {
+      "id": "EVT-002",
+      "timestamp": "2024-01-15T08:15:47Z",
+      "event_type": "LOGIN_SUCCESS",
+      "account_id": "user_charlie",
+      "device_id": "DEVICE-WS-004",
+      "source_ip": "192.168.10.31",
+      "destination_ip": "192.168.10.1",
+      "severity": "LOW",
+      "indicator": null,
+      "source_file": "auth_logs.csv",
+      "description": "تسجيل دخول ناجح للمستخدم user_charlie من عنوانه المعروف"
+    },
+    {
+      "id": "EVT-003",
+      "timestamp": "2024-01-15T09:00:02Z",
+      "event_type": "LOGIN_SUCCESS",
+      "account_id": "svc_backup",
+      "device_id": "DEVICE-SRV-002",
+      "source_ip": "192.168.10.20",
+      "destination_ip": "192.168.10.20",
+      "severity": "LOW",
+      "indicator": null,
+      "source_file": "auth_logs.csv",
+      "description": "تسجيل دخول تلقائي لحساب الخدمة svc_backup لتنفيذ المهام المجدولة في بداية ساعة العمل — نشاط متوقع ومجدول"
+    },
+    {
+      "id": "EVT-004",
+      "timestamp": "2024-01-15T09:05:30Z",
+      "event_type": "NETWORK_CONNECTION",
+      "account_id": "svc_backup",
+      "device_id": "DEVICE-SRV-002",
+      "source_ip": "192.168.10.20",
+      "destination_ip": "192.168.10.50",
+      "severity": "LOW",
+      "indicator": null,
+      "source_file": "network_events.json",
+      "description": "اتصال شبكي روتيني من خادم النسخ الاحتياطي إلى خادم التخزين — نشاط مجدول يومياً"
+    },
+    {
+      "id": "EVT-005",
+      "timestamp": "2024-01-15T10:30:18Z",
+      "event_type": "NETWORK_CONNECTION",
+      "account_id": "user_bob",
+      "device_id": "DEVICE-WS-003",
+      "source_ip": "192.168.10.30",
+      "destination_ip": "10.0.0.5",
+      "severity": "LOW",
+      "indicator": null,
+      "source_file": "network_events.json",
+      "description": "اتصال روتيني من محطة عمل المستخدم user_bob بخادم التطبيقات الداخلي للوصول إلى موارد العمل"
+    },
+    {
+      "id": "EVT-006",
+      "timestamp": "2024-01-15T11:45:55Z",
+      "event_type": "FILE_ACCESS",
+      "account_id": "user_charlie",
+      "device_id": "DEVICE-WS-004",
+      "source_ip": "192.168.10.31",
+      "destination_ip": "192.168.10.40",
+      "severity": "LOW",
+      "indicator": null,
+      "source_file": "audit_logs.csv",
+      "description": "وصول اعتيادي للمستخدم user_charlie إلى ملفات مشتركة على خادم الملفات — النشاط ضمن الصلاحيات المعتادة"
+    }
+  ]
+}

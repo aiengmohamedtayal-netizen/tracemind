@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false }
+        });
+    </script>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 30px;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            direction: rtl;
+            font-family: sans-serif;
+        }
+        .mermaid {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">9. مخطط التبعيات والتوازي للمطورين الستة (Team Dependency Graph)</div>
+    <div class="mermaid">
+flowchart TD
+    M6_Models["Member 6: النماذج والعقود الموحدة\n(Shared Domain Models & Protocols)"]
+    
+    subgraph ParallelPhase1 ["مرحلة التطوير المستقل (الأسبوع 1 و 2 عبر الـ Mocks)"]
+        M1_Ingestion["Member 1: معالجة السجلات واستيعاب الحمولات ومستودعات SQLite"]
+        M2_Correlation["Member 2: محرك الارتباط وقواعد MultiDiGraph"]
+        M4_Hypothesis["Member 4: إدارة الفرضيات والخط الزمني"]
+        M3_Agent["Member 3: دالة المنفعة واستدلال الوكيل النقي"]
+        M5_UI["Member 5: واجهات Streamlit و Plotly (بيانات تجريبية)"]
+    end
+
+    subgraph IntegrationPhase ["مرحلة التكامل المتتابع (نهاية الأسبوع 2 و 3)"]
+        Int_1["تكامل Ingestion مع Correlation (M1 -> M2)"]
+        Int_2["تكامل Correlation مع Hypotheses (M2 -> M4)"]
+        Int_3["تكامل Hypotheses مع Agent Core (M4 -> M3)"]
+        Int_4["ربط الوكيل بخدمة المحاكاة والتنسيق وقاعدة البيانات (M3 -> M6)"]
+        Int_5["ربط واجهة Streamlit بالخدمة الكاملة (M5 -> M6)"]
+    end
+
+    M6_Models --> M1_Ingestion
+    M6_Models --> M2_Correlation
+    M6_Models --> M4_Hypothesis
+    M6_Models --> M3_Agent
+    M6_Models --> M5_UI
+
+    M1_Ingestion --> Int_1
+    M2_Correlation --> Int_1
+    Int_1 --> Int_2
+    M4_Hypothesis --> Int_2
+    Int_2 --> Int_3
+    M3_Agent --> Int_3
+    Int_3 --> Int_4
+    Int_4 --> Int_5
+    M5_UI --> Int_5
+    </div>
+</body>
+</html>

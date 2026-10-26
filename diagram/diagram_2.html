@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false }
+        });
+    </script>
+    <style>
+        body {
+            background-color: white;
+            margin: 0;
+            padding: 30px;
+            display: inline-block;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            direction: rtl;
+            font-family: sans-serif;
+        }
+        .mermaid {
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">2. معمارية المكونات وتدفق البيانات (Component Architecture)</div>
+    <div class="mermaid">
+flowchart LR
+    subgraph Ingestion ["1. وحدة الاستيراد والتخزين (M1)"]
+        CSVParser["CSV / JSON / Payload Parsers"]
+        Normalizer["Event Normalizer"]
+        Deduplicator["Deduplication Engine"]
+        Repos["SQLite Repositories"]
+    end
+
+    subgraph Correlation ["2. محرك الارتباط (M2)"]
+        Rules["Correlation Rules Engine"]
+        NetXGraph["NetworkX MultiDiGraph"]
+    end
+
+    subgraph Investigation ["3. محرك الفرضيات والخط الزمني (M4)"]
+        HypoTracker["Hypothesis State Tracker"]
+        TimelineGen["Timeline Generator"]
+    end
+
+    subgraph Agent ["4. نواة الوكيل الذكي (M3)"]
+        Perception["Perception Filter"]
+        UtilityCalc["Utility Engine: U(a)"]
+        Explainer["Decision Explainer"]
+    end
+
+    subgraph AppOrch ["Application Orchestrator (M6)"]
+        Orchestrator["Workflow Controller"]
+        SimRunner["Action Simulation Runner"]
+    end
+
+    Ingestion -->|SecurityEvents موحدة| Correlation
+    Correlation -->|Evidence + Relations| Investigation
+    Investigation -->|State + Missing Info| Orchestrator
+    Orchestrator -->|Current State| Agent
+    Agent -->|AgentDecision فقط| Orchestrator
+    Orchestrator -->|Selected Action| SimRunner
+    SimRunner -->|ActionExecutionResponse\n(RawLogPayloads)| Ingestion
+    </div>
+</body>
+</html>
