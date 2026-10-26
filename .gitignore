@@ -36,3 +36,10 @@ data/*.db
 .env
 .env.*
 !.env.example
+
+# AI workspace rules (committed project guidance)
+.agents/rules/
+
+# Local generated diagram previews (keep the reproducible source script)
+diagram/*.png
+diagram/*.svg
