@@ -24,7 +24,7 @@ Every PR should include:
 
 ## Shared contracts
 
-Do not create duplicate domain entities or edit `app/domain/models.py` or `app/domain/contracts.py) unilaterally. Follow the RFC/change process in [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md), coordinate with M6 and affected module owners, and update mocks/tests with the contract change.
+Do not create duplicate domain entities or edit `app/domain/models.py` or `app/domain/contracts.py` unilaterally. Follow the RFC/change process in [docs/TEAM_WORKFLOW.md](docs/TEAM_WORKFLOW.md), coordinate with M6 and affected module owners, and update mocks/tests with the contract change.
 
 ## Quality requirements
 
